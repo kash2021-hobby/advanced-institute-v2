@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Users, Monitor, BookOpen, ClipboardCheck, UserCheck, MapPin, LucideIcon } from 'lucide-react';
+import { Users, Monitor, BookOpen, ClipboardCheck, UserCheck, MapPin, Video as LucideIcon } from 'lucide-react';
 
 interface Feature {
   icon: LucideIcon;
