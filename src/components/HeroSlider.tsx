@@ -23,18 +23,18 @@ export default function HeroSlider() {
   return (
     <section className="relative bg-white overflow-hidden min-h-[85vh] flex items-center">
       {/* Mobile Layout */}
-      <div className="lg:hidden w-full">
+      <div className="lg:hidden w-full pt-16">
         {/* Hero Image with Ken Burns Animation and Gradient Overlay */}
         <div className="relative w-full h-[45vh] overflow-hidden">
           <div className="absolute inset-0 animate-ken-burns">
             <img
-              src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80"
+              src="/images/hero/final_webp.webp"
               alt="Successful student"
-              className="w-full h-full object-cover object-top"
+              className="w-full h-full object-cover"
             />
           </div>
-          {/* Strong gradient overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
+          {/* Gradient Overlay - fades to white */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-white"></div>
 
           {/* Headline Overlaid on Bottom of Image */}
           <div className="absolute bottom-0 left-0 right-0 px-5 pb-4">
@@ -146,9 +146,9 @@ export default function HeroSlider() {
           <div className="relative w-full h-[600px] rounded-2xl overflow-hidden shadow-2xl">
             <div className="absolute inset-0 animate-ken-burns">
               <img
-                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&q=80"
+                src="/images/hero/final_webp.webp"
                 alt="Successful student"
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover"
               />
             </div>
             {/* Subtle overlay for depth */}
