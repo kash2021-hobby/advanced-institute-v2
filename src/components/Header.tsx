@@ -141,13 +141,6 @@ export default function Header() {
                 <Search className="w-4 h-4 text-gray-400 absolute left-3" />
               </div>
             </form>
-
-            <Link
-              to="/contact"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
-            >
-              Contact Us
-            </Link>
           </nav>
 
           <button
@@ -161,7 +154,7 @@ export default function Header() {
 
       <div
         className={`lg:hidden bg-white border-t transition-all duration-300 overflow-hidden ${
-          isMenuOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'
+          isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
         }`}
       >
         <nav className="max-w-7xl mx-auto px-4 py-4 space-y-3">
@@ -192,14 +185,6 @@ export default function Header() {
               <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
             </div>
           </form>
-
-          <Link
-            to="/contact"
-            onClick={() => setIsMenuOpen(false)}
-            className="block bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-colors text-center mt-4"
-          >
-            Contact Us
-          </Link>
         </nav>
       </div>
     </header>
