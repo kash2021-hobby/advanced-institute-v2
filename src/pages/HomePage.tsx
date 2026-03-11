@@ -1,10 +1,5 @@
 import { Link } from 'react-router-dom';
 import {
-  Users,
-  BookOpen,
-  ClipboardCheck,
-  UserCheck,
-  MapPin,
   Target,
   TrendingUp,
   Award,
@@ -13,8 +8,8 @@ import {
   Play,
   GraduationCap,
   X,
-  Monitor,
-  Smartphone
+  Smartphone,
+  BookOpen
 } from 'lucide-react';
 import LeadForm from '../components/LeadForm';
 import ShaderBackground from '../components/ui/shader-background';
@@ -23,6 +18,7 @@ import HeroSlider from '../components/HeroSlider';
 import InfrastructureSection from '../components/InfrastructureSection';
 import MobileAppSection from '../components/MobileAppSection';
 import TestimonialsSection from '../components/TestimonialsSection';
+import FeatureCardsSection from '../components/FeatureCardsSection';
 import { useState } from 'react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
@@ -112,7 +108,9 @@ export default function HomePage() {
     <div>
       <HeroSlider />
 
-      <section className="py-12 bg-gradient-to-br from-primary-50 via-white to-ocean-50 border-b border-primary-100 overflow-hidden relative">
+      <FeatureCardsSection />
+
+      <section className="py-12 bg-gradient-to-br from-primary-50 via-white to-ocean-50 border-b border-primary-100 overflow-hidden relative" style={{ display: 'none' }}>
         <div className="absolute inset-0 bg-blue-radial opacity-40"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Desktop: Normal Grid */}
