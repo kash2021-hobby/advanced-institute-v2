@@ -1,288 +1,180 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { cn } from '@/lib/utils';
-
-interface Slide {
-  id: number;
-  eyebrowText: string;
-  headline: string;
-  subtext: string;
-  personImage: string;
-  carouselImages?: string[];
-  ctaText: string;
-  ctaLink: string;
-}
-
-const slides: Slide[] = [
-  {
-    id: 1,
-    eyebrowText: "",
-    headline: "Crack Government Exams with Confidence",
-    subtext: "Join a results-focused government exam institute for Railway NTPC, SSC CGL, SSC CHSL, ADRE and Banking exams with expert guidance and strategy.",
-    personImage: "/images/hero/train-background.jpg",
-    carouselImages: [
-      "/images/hero/7.webp",
-      "/images/hero/8.webp",
-      "/images/hero/9.webp",
-      "/images/hero/10.webp",
-      "/images/hero/11.webp",
-      "/images/hero/12.webp",
-    ],
-    ctaText: "Explore Programs",
-    ctaLink: "/courses"
-  }
-];
+import { CheckCircle2 } from 'lucide-react';
 
 export default function HeroSlider() {
-  const [isPaused, setIsPaused] = useState(false);
-  const [carouselIndex, setCarouselIndex] = useState(1);
-
-  const handleMouseEnter = () => {
-    setIsPaused(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsPaused(false);
-  };
-
-  const handleNextCarousel = useCallback(() => {
-    const images = slides[0].carouselImages || [slides[0].personImage];
-    setCarouselIndex((prev) => (prev + 1) % images.length);
-  }, []);
-
-  const handlePrevCarousel = () => {
-    const images = slides[0].carouselImages || [slides[0].personImage];
-    setCarouselIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
+  const [activeSlide, setActiveSlide] = useState(0);
+  const totalSlides = 3;
 
   useEffect(() => {
-    if (isPaused) return;
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % totalSlides);
+    }, 5000);
 
-    const carouselInterval = setInterval(() => {
-      handleNextCarousel();
-    }, 3500);
+    return () => clearInterval(interval);
+  }, []);
 
-    return () => clearInterval(carouselInterval);
-  }, [handleNextCarousel, isPaused]);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setIsPaused(true);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    e.preventDefault();
-  };
-
-  const handleTouchEnd = () => {
-    setTimeout(() => setIsPaused(false), 500);
-  };
-
-  const slide = slides[0];
-  const carouselImages = slide.carouselImages || [slide.personImage];
+  const benefits = [
+    'Expert Guidance & Strategy',
+    'Live & Offline Classes',
+    'High Success Rate in Assam'
+  ];
 
   return (
-    <section
-      className="relative bg-white overflow-hidden lg:min-h-screen"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* Desktop: Split Layout - Text Left, Carousel Right */}
-      <div className="hidden lg:block relative w-full h-full">
-        <div className="grid grid-cols-2 gap-8 max-w-[1400px] mx-auto px-[5%] items-center min-h-screen">
-          {/* Left Column - Text Content (handled below) */}
-          <div></div>
-
-          {/* Right Column - 3D Carousel */}
-          <div
-            key={`desktop-carousel-${slide.id}`}
-            className="relative w-full h-[600px] flex items-center justify-center animate-fadeIn"
-          >
-            {/* 3D Carousel Wrapper */}
-            <div
-              className="relative w-full h-full flex items-center justify-center [perspective:1200px]"
-            >
-              {carouselImages.map((image, index) => {
-                const offset = index - carouselIndex;
-                const total = carouselImages.length;
-                let pos = (offset + total) % total;
-                if (pos > Math.floor(total / 2)) {
-                  pos = pos - total;
-                }
-
-                const isCenter = pos === 0;
-                const isAdjacent = Math.abs(pos) === 1;
-
-                return (
-                  <div
-                    key={`${slide.id}-desktop-${index}`}
-                    className={cn(
-                      'absolute w-80 h-[500px] transition-all duration-500 ease-out',
-                      'flex items-center justify-center p-0'
-                    )}
-                    style={{
-                      transform: `
-                        translateX(${(pos) * 55}%)
-                        scale(${isCenter ? 1 : isAdjacent ? 0.85 : 0.7})
-                        rotateY(${(pos) * -12}deg)
-                      `,
-                      zIndex: isCenter ? 10 : isAdjacent ? 5 : 1,
-                      opacity: isCenter ? 1 : isAdjacent ? 0.5 : 0,
-                      filter: isCenter ? 'blur(0px)' : 'blur(4px)',
-                      visibility: Math.abs(pos) > 1 ? 'hidden' : 'visible',
-                    }}
-                  >
-                    <img
-                      src={image}
-                      alt={`${slide.headline} - Image ${index + 1}`}
-                      className="w-full h-full rounded-lg border-4 border-white/30 shadow-2xl object-contain"
-                      style={{ objectFit: 'contain', padding: '0' }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+    <section className="relative bg-white overflow-hidden min-h-[85vh] flex items-center">
+      {/* Mobile Layout */}
+      <div className="lg:hidden w-full pt-16">
+        {/* Hero Image with Ken Burns Animation and Gradient Overlay */}
+        <div className="relative w-full h-[45vh] overflow-hidden">
+          <div className="absolute inset-0 animate-ken-burns">
+            <img
+              src="/images/hero/final_webp.webp"
+              alt="Successful student"
+              className="w-full h-full object-cover"
+            />
           </div>
-        </div>
-      </div>
+          {/* Gradient Overlay - fades to white */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-white"></div>
 
-      {/* Mobile Layout - Content First, Then Carousel */}
-      <div className="lg:hidden pt-16">
-        {/* Mobile: Content Section - Text Above Carousel */}
-        <div className="bg-white px-5 pt-8 pb-6">
-          <div
-            key={`mobile-content-${slide.id}`}
-            className="text-center"
-          >
-            {slide.eyebrowText && (
-              <p
-                className="text-center text-sm font-medium leading-relaxed mb-3 text-gray-600"
-              >
-                {slide.eyebrowText}
-              </p>
-            )}
-
-            <h1
-              className="text-4xl font-extrabold leading-tight mb-4 text-gray-900"
-            >
-              {slide.headline}
+          {/* Headline Overlaid on Bottom of Image */}
+          <div className="absolute bottom-0 left-0 right-0 px-5 pb-4">
+            <h1 className="text-4xl font-extrabold text-slate-900 leading-tight">
+              Crack Government Exams.{' '}
+              <br />
+              Build Your Career.
             </h1>
-
-            <p
-              className="text-base text-gray-600 leading-relaxed mb-6"
-            >
-              {slide.subtext}
-            </p>
-
-            <div className="flex justify-center">
-              <Link
-                to={slide.ctaLink}
-                className="inline-block text-white h-[48px] px-8 rounded-lg text-base font-semibold transition-all duration-300 text-center leading-[48px] shadow-lg hover:shadow-xl"
-                style={{
-                  background: 'linear-gradient(180deg, #0D6EFD 0%, #0A58CA 100%)',
-                }}
-              >
-                {slide.ctaText}
-              </Link>
-            </div>
           </div>
         </div>
 
-        {/* Mobile: 3D Carousel Section with White Background */}
-        <div
-          key={`mobile-carousel-${slide.id}`}
-          className="relative w-full h-[60vh] min-h-[450px] max-h-[550px] overflow-hidden flex items-center justify-center bg-white pb-8"
-        >
-          {/* 3D Carousel Wrapper */}
-          <div
-            className="relative w-full h-full flex items-center justify-center [perspective:1000px] px-4"
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-          >
-            {carouselImages.map((image, index) => {
-              const offset = index - carouselIndex;
-              const total = carouselImages.length;
-              let pos = (offset + total) % total;
-              if (pos > Math.floor(total / 2)) {
-                pos = pos - total;
-              }
-
-              const isCenter = pos === 0;
-              const isAdjacent = Math.abs(pos) === 1;
-
-              return (
-                <div
-                  key={`${slide.id}-${index}`}
-                  className={cn(
-                    'absolute w-64 h-[380px] sm:w-80 sm:h-[480px] transition-all duration-300 ease-in-out',
-                    'flex items-center justify-center p-0'
-                  )}
-                  style={{
-                    transform: `
-                      translateX(${(pos) * 55}%)
-                      scale(${isCenter ? 1 : isAdjacent ? 0.82 : 0.7})
-                      rotateY(${(pos) * -12}deg)
-                    `,
-                    zIndex: isCenter ? 10 : isAdjacent ? 5 : 1,
-                    opacity: isCenter ? 1 : isAdjacent ? 0.4 : 0,
-                    filter: isCenter ? 'blur(0px)' : 'blur(3px)',
-                    visibility: Math.abs(pos) > 1 ? 'hidden' : 'visible',
-                  }}
-                >
-                  <img
-                    src={image}
-                    alt={`${slide.headline} - Image ${index + 1}`}
-                    className="w-full h-full rounded-lg border-3 border-white/20 shadow-2xl object-contain"
-                    style={{ objectFit: 'contain', padding: '0' }}
-                  />
-                </div>
-              );
-            })}
+        {/* Content Below Image */}
+        <div className="bg-white px-5 pt-6 pb-8">
+          {/* Checkmark Features */}
+          <div className="space-y-3 mb-6">
+            {benefits.map((benefit, index) => (
+              <div key={index} className="flex items-center gap-3">
+                <CheckCircle2 className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                <span className="text-sm text-gray-700 font-medium">{benefit}</span>
+              </div>
+            ))}
           </div>
-        </div>
 
-      </div>
-
-      {/* Desktop Content Container - Positioned in Left Column */}
-      <div className="hidden lg:block absolute inset-0 pointer-events-none z-10">
-        <div className="grid grid-cols-2 gap-8 max-w-[1400px] mx-auto px-[5%] h-full items-center min-h-screen">
-          <div className="pointer-events-auto">
-            <div
-              key={`desktop-content-${slide.id}`}
-              className="space-y-0 pr-8 animate-fadeIn"
+          {/* Buttons - Stacked Vertically */}
+          <div className="space-y-3 mb-6">
+            <Link
+              to="/courses"
+              className="block w-full bg-blue-600 text-white h-[48px] rounded-lg text-base font-semibold hover:bg-blue-700 transition-all duration-300 text-center leading-[48px] shadow-md"
             >
-              {/* Eyebrow Text */}
-              {slide.eyebrowText && (
-                <p className="text-[22px] font-semibold text-gray-800 leading-[1.4] mb-[14px]">
-                  {slide.eyebrowText}
-                </p>
-              )}
-
-              {/* Main Heading */}
-              <h1 className="text-[56px] font-bold text-slate-900 leading-[1.15] mb-[24px]">
-                {slide.headline}
-              </h1>
-
-              {/* Subtext */}
-              <p className="text-[20px] font-normal text-gray-600 leading-[1.6] pb-10">
-                {slide.subtext}
-              </p>
-
-              {/* Primary CTA Button */}
-              <Link
-                to={slide.ctaLink}
-                className="inline-block w-auto bg-blue-600 text-white h-[52px] px-[28px] rounded-lg text-[16px] font-semibold hover:bg-blue-700 transition-all duration-300 hover:shadow-lg leading-[52px] text-center mt-6"
-              >
-                {slide.ctaText}
-              </Link>
-            </div>
+              Explore Programs
+            </Link>
+            <Link
+              to="/contact"
+              className="block w-full bg-transparent border-2 border-blue-600 text-blue-600 h-[48px] rounded-lg text-base font-semibold hover:bg-blue-50 transition-all duration-300 text-center leading-[44px]"
+            >
+              Talk to an Advisor
+            </Link>
           </div>
-          {/* Right column space for carousel */}
-          <div></div>
+
+          {/* Carousel Dots */}
+          <div className="flex justify-center gap-2">
+            {[...Array(totalSlides)].map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveSlide(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === activeSlide ? 'bg-blue-600 w-6' : 'bg-gray-300'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
+      {/* Desktop Layout */}
+      <div className="hidden lg:flex w-full max-w-[1400px] mx-auto px-[5%] py-16 items-center gap-12">
+        {/* Left Column - Content */}
+        <div className="flex-1">
+          <h1 className="text-6xl font-extrabold text-slate-900 leading-tight mb-6">
+            Crack Government Exams.{' '}
+            <br />
+            Build Your Career.
+          </h1>
 
+          {/* Checkmark Features */}
+          <div className="space-y-4 mb-8">
+            {benefits.map((benefit, index) => (
+              <div key={index} className="flex items-center gap-3">
+                <CheckCircle2 className="w-6 h-6 text-blue-600 flex-shrink-0" />
+                <span className="text-lg text-gray-700 font-medium">{benefit}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Buttons - Side by Side */}
+          <div className="flex gap-4 mb-8">
+            <Link
+              to="/courses"
+              className="inline-block bg-blue-600 text-white h-[52px] px-8 rounded-lg text-base font-semibold hover:bg-blue-700 transition-all duration-300 text-center leading-[52px] shadow-md"
+            >
+              Explore Programs
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-block bg-transparent border-2 border-blue-600 text-blue-600 h-[52px] px-8 rounded-lg text-base font-semibold hover:bg-blue-50 transition-all duration-300 text-center leading-[48px]"
+            >
+              Talk to an Advisor
+            </Link>
+          </div>
+
+          {/* Carousel Dots */}
+          <div className="flex gap-2">
+            {[...Array(totalSlides)].map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveSlide(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === activeSlide ? 'bg-blue-600 w-8' : 'bg-gray-300'
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Right Column - Animated Image */}
+        <div className="flex-1 relative">
+          <div className="relative w-full h-[600px] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="absolute inset-0 animate-ken-burns">
+              <img
+                src="/images/hero/final_webp.webp"
+                alt="Successful student"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {/* Subtle overlay for depth */}
+            <div className="absolute inset-0 bg-gradient-to-t from-blue-900/10 to-transparent"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Ken Burns Animation Styles */}
+      <style>{`
+        @keyframes ken-burns {
+          0% {
+            transform: scale(1) translate(0, 0);
+          }
+          50% {
+            transform: scale(1.1) translate(-2%, -2%);
+          }
+          100% {
+            transform: scale(1) translate(0, 0);
+          }
+        }
+
+        .animate-ken-burns {
+          animation: ken-burns 20s ease-in-out infinite;
+        }
+      `}</style>
     </section>
   );
 }
