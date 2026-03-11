@@ -145,12 +145,52 @@ export default function HeroSlider() {
         </div>
       </div>
 
-      {/* Mobile Layout - Simplilearn Design Pattern with 3D Carousel */}
-      <div className="lg:hidden -mt-16">
+      {/* Mobile Layout - Content First, Then Carousel */}
+      <div className="lg:hidden pt-16">
+        {/* Mobile: Content Section - Text Above Carousel */}
+        <div className="bg-white px-5 pt-8 pb-6">
+          <div
+            key={`mobile-content-${slide.id}`}
+            className="text-center"
+          >
+            {slide.eyebrowText && (
+              <p
+                className="text-center text-sm font-medium leading-relaxed mb-3 text-gray-600"
+              >
+                {slide.eyebrowText}
+              </p>
+            )}
+
+            <h1
+              className="text-4xl font-extrabold leading-tight mb-4 text-gray-900"
+            >
+              {slide.headline}
+            </h1>
+
+            <p
+              className="text-base text-gray-600 leading-relaxed mb-6"
+            >
+              {slide.subtext}
+            </p>
+
+            <div className="flex justify-center">
+              <Link
+                to={slide.ctaLink}
+                className="inline-block text-white h-[48px] px-8 rounded-lg text-base font-semibold transition-all duration-300 text-center leading-[48px] shadow-lg hover:shadow-xl"
+                style={{
+                  background: 'linear-gradient(180deg, #0D6EFD 0%, #0A58CA 100%)',
+                }}
+              >
+                {slide.ctaText}
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* Mobile: 3D Carousel Section with White Background */}
         <div
           key={`mobile-carousel-${slide.id}`}
-          className="relative w-full h-[68vh] min-h-[500px] max-h-[620px] overflow-hidden flex items-center justify-center bg-white pt-16"
+          className="relative w-full h-[60vh] min-h-[450px] max-h-[550px] overflow-hidden flex items-center justify-center bg-white pb-8"
         >
           {/* 3D Carousel Wrapper */}
           <div
@@ -174,7 +214,7 @@ export default function HeroSlider() {
                 <div
                   key={`${slide.id}-${index}`}
                   className={cn(
-                    'absolute w-64 h-[420px] sm:w-80 sm:h-[520px] transition-all duration-300 ease-in-out',
+                    'absolute w-64 h-[380px] sm:w-80 sm:h-[480px] transition-all duration-300 ease-in-out',
                     'flex items-center justify-center p-0'
                   )}
                   style={{
@@ -198,58 +238,6 @@ export default function HeroSlider() {
                 </div>
               );
             })}
-          </div>
-        </div>
-
-        {/* Mobile: Content Section - Clean White Background */}
-        <div className="bg-white px-5 pt-4 pb-8">
-          <div
-            key={`mobile-content-${slide.id}`}
-          >
-            {slide.eyebrowText && (
-              <p
-                className="text-[13px] font-medium leading-[1.4] mb-2"
-                style={{
-                  color: '#4A5568',
-                  letterSpacing: '-0.01em'
-                }}
-              >
-                {slide.eyebrowText}
-              </p>
-            )}
-
-            <h1
-              className="text-[24px] font-bold leading-[1.2] mb-3"
-              style={{
-                color: '#1A202C',
-                letterSpacing: '-0.02em',
-                WebkitFontSmoothing: 'antialiased'
-              }}
-            >
-              {slide.headline}
-            </h1>
-
-            <p
-              className="text-[13px] font-normal leading-[1.5] mb-4"
-              style={{
-                color: '#718096'
-              }}
-            >
-              {slide.subtext}
-            </p>
-
-            <Link
-              to={slide.ctaLink}
-              className="block w-full text-white h-[44px] rounded-lg text-[14px] font-medium transition-all duration-300 text-center"
-              style={{
-                background: 'linear-gradient(180deg, #0D6EFD 0%, #0A58CA 100%)',
-                letterSpacing: '0.01em',
-                lineHeight: '44px',
-                boxShadow: '0 2px 8px rgba(13, 110, 253, 0.25)'
-              }}
-            >
-              {slide.ctaText}
-            </Link>
           </div>
         </div>
 
