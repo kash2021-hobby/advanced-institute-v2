@@ -21,11 +21,11 @@ export default function HeroSlider() {
   ];
 
   return (
-    <section className="relative bg-white overflow-hidden min-h-[85vh] flex items-center">
+    <section className="relative bg-white overflow-hidden min-h-[85vh] flex items-center mt-0 pt-0">
       {/* Mobile Layout */}
-      <div className="lg:hidden w-full pt-16">
+      <div className="lg:hidden w-full mt-0 pt-0">
         {/* Hero Image with Ken Burns Animation and Gradient Overlay */}
-        <div className="relative w-full h-[45vh] overflow-hidden">
+        <div className="relative w-full h-[45vh] overflow-hidden mt-0 pt-0">
           <div className="absolute inset-0 animate-ken-burns">
             <img
               src="/images/hero/final_webp.webp"
